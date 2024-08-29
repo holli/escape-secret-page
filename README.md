@@ -1,4 +1,7 @@
-# escape-secret-page
+# Escape-secret-page
+
+Example of distribution at https://holli.github.io/escape-secret-page/dist/index.html
+
 
 - git clone https://github.com/holli/escape-secret-page.git
 - npm install
