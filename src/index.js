@@ -4,5 +4,5 @@
 // Enable webpack.config.js -> the partition about bundle.js
 // Index.html add line:    <script src="bundle.js"></script>
 
-console.log("We are in index.js, not used at the moment.")
+// console.log("We are in index.js, not used at the moment.")
 
