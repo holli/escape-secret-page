@@ -1,1 +1,36 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Secret Page</title><script defer="defer" src="bundle.js"></script></head><body><h1>Enter Password</h1><input id="password" placeholder="Enter password"> <button onclick="decrypt()">Submit</button><div id="result"></div><script src="bundle.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Page</title>
+
+
+    <!-- Load CryptoJS from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+
+    <script>
+        console.log("ONLY SCRIPT");
+    </script>
+
+<script defer>console.log("REALOADING");</script></head>
+<body>
+    <h2>TESTINGasdffdsa</h2>
+    <h1>Enter Password</h1>
+    <input type="text" id="password" placeholder="Enter password">
+    <button onclick="decrypt()">Submit</button>
+    <div id="result"></div>
+
+
+<!-- <pre>
+const response = await fetch('secrets.json');
+const encryptedSecrets = await response.json();
+encryptedSecrets
+CryptoJS.AES.decrypt(encryptedSecrets[0], 'password').toString(CryptoJS.enc.Utf8);
+
+</pre> -->
+ <!-- <script src="bundle.js"></script> -->
+
+<script>window.encryptedSecrets = ["U2FsdGVkX1+o+kDnGdvn7usMqAXVpSpthE1SezdLdsXbVHubcXLFwxuL1UC/FRsp","U2FsdGVkX18EtqMCrUvXrzKk92UC9iDp4hX0K/APM439OzvRmiAgsQ7DO8T8xwvHEe9FDwcWPasmhS0IuMzYJ85tL3yMdmT6ZEUIL4FxB+tAevGLVRUY8fz8Q7tzKUVXyZQGds9yQLVAFptXSDS4Ir2jd4C8JGG4LGfhmK66+lwJTraVFfU5YHYDJXdOmqFH","U2FsdGVkX18QYzvUSa6rFTANO7XGf6it6OfCDsqhRx90EOD9S9/9cVQAB/csRnyEdccogb1sVtR02sQ//vbSYA=="];</script></body>
+</html>
+

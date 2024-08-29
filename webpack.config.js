@@ -3,29 +3,40 @@ const path = require('path');
 const yaml = require('yaml');
 const fs = require('fs');
 const CryptoJS = require('crypto-js');
-const HtmlWebpackPlugin = require('html-webpack-plugin'); // Import HtmlWebpackPlugin
-const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin'); // Import HtmlWebpackInlineSourcePlugin
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
 
 
-// Read and encrypt secrets
-const secretsFile = fs.readFileSync('./secrets_example.yaml', 'utf8');
+
+// Determine which secrets file to use and read it
+const secretsFilePath = fs.existsSync('./secrets.yaml') ? './secrets.yaml' : './secrets_example.yaml';
+const secretsFile = fs.readFileSync(secretsFilePath, 'utf8');
 const secrets = yaml.parse(secretsFile);
 const encryptedSecrets = [];
 
+function normalizePassword(password) {
+    return password.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+  }
+
 // Encrypt each secret and push it to the list
 Object.keys(secrets).forEach((password) => {
-    const encrypted = CryptoJS.AES.encrypt(secrets[password], password).toString();
-    // console.log(password, ':', secrets[password], ':', encrypted)
+    passNormalized = normalizePassword(password)
+    const encrypted = CryptoJS.AES.encrypt(secrets[password], passNormalized).toString();
     encryptedSecrets.push(encrypted);
 });
 
+
+const secretsJson = JSON.stringify(encryptedSecrets);
+
 module.exports = {
     mode: 'development', // Set to 'development' for development build or 'production' for production build
-    entry: './src/index.js',
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js',
-    },
+    // Enable following if using index.js, also add "<script src="bundle.js"></script>" to index.html to load the javascript
+    // entry: './src/index.js',
+    // output: {
+    //     path: path.resolve(__dirname, 'dist'),
+    //     filename: 'bundle.js',
+    //     publicPath: '', // Explicitly set the publicPath to the root
+    // },
     module: {
         rules: [
             {
@@ -41,48 +52,25 @@ module.exports = {
         compress: true,
         port: 9000,
     },
+
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html', // Specify the HTML template to use
-            inlineSource: '.js$' // Inline JavaScript files
+            template: './src/index.html',
+            inlineSource: '.(js|css)$', // Inline all JavaScript and CSS files
+            minify: false, // Disable HTML minification
         }),
-        // new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin), // Inline JavaScript files
-        // {
-        //     apply: (compiler) => {
-        //         compiler.hooks.thisCompilation.tap('InjectSecretsPlugin', (compilation) => {
-        //             compilation.hooks.processAssets.tap(
-        //                 {
-        //                     name: 'InjectSecretsPlugin',
-        //                     stage: compilation.PROCESS_ASSETS_STAGE_ADDITIONS,
-        //                 },
-        //                 () => {
-        //                     // Inject the secrets JSON into the HTML file
-        //                     const htmlPlugin = compilation.plugins.find(plugin => plugin.constructor.name === 'HtmlWebpackPlugin');
-        //                     if (htmlPlugin) {
-        //                         htmlPlugin.options.inject = {
-        //                             after: `<script>window.encryptedSecrets = ${secretsJson};</script>`
-        //                         };
-        //                     }
-        //                 }
-        //             );
-        //         });
-        //     },
-        //   }
-
+        new HtmlInlineScriptPlugin(),
         {
             apply: (compiler) => {
-                // Use processAssets hook to modify assets as recommended by Webpack 5
-                compiler.hooks.thisCompilation.tap('EncryptSecretsPlugin', (compilation) => {
-                    compilation.hooks.processAssets.tap(
-                        {
-                            name: 'EncryptSecretsPlugin',
-                            stage: compilation.PROCESS_ASSETS_STAGE_ADDITIONS,
-                        },
-                        (assets) => {
-                            assets['secrets.json'] = {
-                                source: () => JSON.stringify(encryptedSecrets),
-                                size: () => JSON.stringify(encryptedSecrets).length,
-                            };
+                compiler.hooks.compilation.tap('InjectSecretsPlugin', (compilation) => {
+                    HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync(
+                        'InjectSecretsPlugin',
+                        (data, cb) => {
+                            data.html = data.html.replace(
+                                '<script>alert("Warning, you didnt build files, no secrets included in the file!")</script>',
+                                `<!-- Secrets parsed from (${secretsFilePath}) on ${new Date()} -->\n<script>window.encryptedSecrets = ${secretsJson};</script></body>`
+                            );
+                            cb(null, data);
                         }
                     );
                 });

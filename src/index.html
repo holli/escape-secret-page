@@ -1,26 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secret Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secret Page</title>
+
+  <!-- Load CryptoJS from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+
+  <script>
+
+    function normalizePassword(password) {
+      return password.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+    }
+
+    function decrypt() {
+      const password = normalizePassword(document.getElementById('password').value);
+      const resultDiv = document.getElementById('result');
+
+      try {
+          const encryptedSecrets = window.encryptedSecrets;
+
+          let found = false;
+
+          for (const encryptedText of Object.values(encryptedSecrets)) {
+              try {
+                  const decrypted = CryptoJS.AES.decrypt(encryptedText, password).toString(CryptoJS.enc.Utf8);
+                  if (decrypted) {
+                      resultDiv.textContent = `Decrypted text: ${decrypted}`;
+                      found = true;
+                      break;
+                  }
+              } catch (e) {
+                  // Continue if decryption fails for a given text
+              }
+          }
+
+          if (!found) {
+              resultDiv.textContent = 'FAILED! Try better! (invalid password)';
+          }
+      } catch (error) {
+          resultDiv.textContent = 'Error loading secrets.';
+          console.error(error);
+      }
+    }
+  </script>
+
 </head>
 <body>
-    <h1>Enter Password</h1>
-    <input type="text" id="password" placeholder="Enter password">
-    <button onclick="decrypt()">Submit</button>
-    <div id="result"></div>
+  <h1>Enter Password</h1>
+  <input type="text" id="password" placeholder="Enter password">
+  <button onclick="decrypt()">Submit</button>
+  <div id="result"></div>
 
 
-<!-- <pre>
-const response = await fetch('secrets.json');
-const encryptedSecrets = await response.json();
-encryptedSecrets
-CryptoJS.AES.decrypt(encryptedSecrets[0], 'password').toString(CryptoJS.enc.Utf8);
 
-</pre> -->
+<!-- This will be converted to window.encryptedSecrets = [encrypted texts array] in webpack.config.js  -->
+<script>alert("Warning, you didnt build files, no secrets included in the file!")</script>
 
-    <script src="bundle.js"></script>
 </body>
 </html>
 
