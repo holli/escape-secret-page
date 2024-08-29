@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Page</title>
+</head>
+<body>
+    <h1>Enter Password</h1>
+    <input type="text" id="password" placeholder="Enter password">
+    <button onclick="decrypt()">Submit</button>
+    <div id="result"></div>
+
+
+<!-- <pre>
+const response = await fetch('secrets.json');
+const encryptedSecrets = await response.json();
+encryptedSecrets
+CryptoJS.AES.decrypt(encryptedSecrets[0], 'password').toString(CryptoJS.enc.Utf8);
+
+</pre> -->
+
+    <script src="bundle.js"></script>
+</body>
+</html>
+
