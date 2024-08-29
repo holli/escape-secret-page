@@ -1,17 +1,14 @@
 # escape-secret-page
 
-
-- clone git@github.com:holli/escape-secret-page.git
+- git clone https://github.com/holli/escape-secret-page.git
 - npm install
 - development
-  - npx webpack serve
-    - will start to serve the html in http://localhost:9000/
-- production
+  - npx webpack serve --mode production
+    - will start to serve the html in http://localhost:9000/ , just edit the index.html, save and reload changes
+- deployment
   - npx webpack --mode production
-- deployaus
-  - kopioi dist/hakmeistosta kaikki
-
-
+    - will create dist/index.html
+  - copy dist/index.html to somewhere , or just add to git
 
 ## Other infos
 
@@ -19,5 +16,5 @@
 
 ## Todo
 
-- html supportti texteissä
+- ... ? ...
 
