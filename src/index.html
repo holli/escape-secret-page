@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Secret Page</title>
+  <title>Filing cabinet</title>
 
   <!-- Some css library to reset the styles to be same for all -->
   <!-- See https://getbootstrap.com/ - or change to something else. -->
@@ -14,9 +14,9 @@
 <body class="d-flex flex-column align-items-center pt-5">
 
   <div class="container text-center">
-    <h1 class="mb-4">Enter Haloo</h1>
-    <input type="text" id="password" class="form-control mb-3 w-50 mx-auto" placeholder="Enter password">
-    <button onclick="decrypt()" class="btn btn-primary mb-3">Submit</button>
+    <h1 class="mb-4">Reference search</h1>
+    <input type="text" id="password" class="form-control mb-3 w-50 mx-auto" placeholder="Enter reference word or number">
+    <button onclick="decrypt()" class="btn btn-primary mb-3">Find reference</button>
     <div id="result" class="mt-3"></div>
   </div>
 
@@ -45,7 +45,7 @@
                 const decrypted = CryptoJS.AES.decrypt(encryptedText, password).toString(CryptoJS.enc.Utf8);
                 if (decrypted) {
                     // resultDiv.textContent = `Decrypted text: ${decrypted}`;
-                    resultDiv.innerHTML = `Decrypted text: ${decrypted}`;
+                    resultDiv.innerHTML = `Match found for the reference "xxx"!<br> ${decrypted}`;
                     found = true;
                     break;
                 }
@@ -55,10 +55,10 @@
         }
 
         if (!found) {
-            resultDiv.textContent = 'FAILED! Try better! (invalid password)';
+            resultDiv.textContent = 'No match found with the reference "xxx"';
         }
     } catch (error) {
-        resultDiv.textContent = 'Error loading secrets.';
+        resultDiv.textContent = 'Error loading matches';
         console.error(error);
     }
   }

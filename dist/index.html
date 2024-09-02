@@ -9,7 +9,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Secret Page</title>
+  <title>Filing cabinet</title>
 
   <!-- Some css library to reset the styles to be same for all -->
   <!-- See https://getbootstrap.com/ - or change to something else. -->
@@ -20,9 +20,9 @@
 <body class="d-flex flex-column align-items-center pt-5">
 
   <div class="container text-center">
-    <h1 class="mb-4">Enter Haloo</h1>
-    <input type="text" id="password" class="form-control mb-3 w-50 mx-auto" placeholder="Enter password">
-    <button onclick="decrypt()" class="btn btn-primary mb-3">Submit</button>
+    <h1 class="mb-4">Reference search</h1>
+    <input type="text" id="password" class="form-control mb-3 w-50 mx-auto" placeholder="Enter reference word or number">
+    <button onclick="decrypt()" class="btn btn-primary mb-3">Find reference</button>
     <div id="result" class="mt-3"></div>
   </div>
 
@@ -51,7 +51,7 @@
                 const decrypted = CryptoJS.AES.decrypt(encryptedText, password).toString(CryptoJS.enc.Utf8);
                 if (decrypted) {
                     // resultDiv.textContent = `Decrypted text: ${decrypted}`;
-                    resultDiv.innerHTML = `Decrypted text: ${decrypted}`;
+                    resultDiv.innerHTML = `Match found for the reference "xxx"!<br> ${decrypted}`;
                     found = true;
                     break;
                 }
@@ -61,10 +61,10 @@
         }
 
         if (!found) {
-            resultDiv.textContent = 'FAILED! Try better! (invalid password)';
+            resultDiv.textContent = 'No match found with the reference "xxx"';
         }
     } catch (error) {
-        resultDiv.textContent = 'Error loading secrets.';
+        resultDiv.textContent = 'Error loading matches';
         console.error(error);
     }
   }
@@ -72,8 +72,8 @@
 </script>
 
 <!-- This will be converted to window.encryptedSecrets = [encrypted texts array] in webpack.config.js  -->
-<!-- Secrets parsed from (./secrets.yaml) on Mon Sep 02 2024 14:38:10 GMT+0300 (Eastern European Summer Time) -->
-<script>window.encryptedSecrets = ["U2FsdGVkX1/FD25IU0UUMAzNv0Np/Yh+2ilhM5q7J7qMI9AezIz9E0wRTmXVYbwq","U2FsdGVkX18QhWrlSnFCLQeUj1pjNXRhex73Ltd2jtw9NadWRZCeK1lsLkUdZUZ3NrLt9QZtEZx4AnEo3dqfE3iBniBdj7kn5K+9oq5jtCLTyM7QTjzrquKmLZ+nwT9Te1sW9bHyGxyVGE+5NbAfL2FBBYi8Ha3eCxtQtcuLdrQjG2pS94va7oCing1RRnvi","U2FsdGVkX1+glZ+PgkSDcM9nA9+S8f44TYBd2Tc6EmRPjMy6/febYCkvilaEoyStoiCPxtVxji/G/MOAvGWd7A==","U2FsdGVkX18QojgGYf9OlSc60FFiuqwHQpCq0wIV1emPZNhWiZ0UkeBuOhwq5LG5hm89rxaCSXPtiMxSktmkIg==","U2FsdGVkX18cOFei5KxJ1yfMI/X90SvZYQHiOLQEOWOJvMu6MxuBAx6+iAeoSo3d"];</script></body>
+<!-- Secrets parsed from (./secrets.yaml) on Mon Sep 02 2024 16:10:09 GMT+0300 (Eastern European Summer Time) -->
+<script>window.encryptedSecrets = ["U2FsdGVkX1+D2MffLy8MNP3RRF97o4du1IsyJFS0cwIkOJZ6V+j8Y+qrHBUr4jeC","U2FsdGVkX1+MG6B0xdMzVQ9XFV4cRBTSmcjQ5nP1r6fNyeQ2oyMklmB0eBNaOERQ0WGUSQcRMIkbYIHlowl3+ET1iCaIQbmGffXdu1AR+3YJJRtyCeViCfda1YGAP36+qiVnnG35bdfNW3W+YVfWAp1SND4GsYRWa1DwjvR1d85dGh/JYlR+QTvgNuwS15vF","U2FsdGVkX1+W7hNWY0EEIIbMWggF2yfoSDJQAVf70vl9ZIJqqNYV28MQDVm3oAD/r9WPTV2kGFHmd+PDPqEOdw==","U2FsdGVkX1/B3e/wq/29etkJfwcqpgge7RrMQgWN7uE1IXpSJ1+HvnJBRab+sOL0Y9pQdNvPMpDCvfEEpMYsfQ==","U2FsdGVkX18jkIAFFc5rhJDR5/Pz76e4e8YzAud0qmnUKTcZCRuZNoDi9dwFSiTL","U2FsdGVkX18adumANngnhHF1Mp739GYI2jeH8fZrozQ=","U2FsdGVkX195KSBUJ03E4nrb2DySxTvx5ViMRWIJdz4v6pvNbDZIIxH7P5eBxcApYfDpqmvZ9yM1/03+OAvwQ2ICfVbTS5V5cJSXjt+4xzk="];</script></body>
 
 </body>
 </html>
